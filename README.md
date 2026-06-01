@@ -1,12 +1,11 @@
 # Threatscope
-
-**POC — A research-grade pipeline demonstrating data engineering and cybersecurity concepts, not production software.**
-- Currently, the produced models are not trained on sufficient data to produce meaningful predictions. The architecture and pipeline are the artifact, not the weights.**
-- This project currently doesn't consider distributability or dependency versions apart from the development environment.
-
 **Threat Actor Behavior Prediction** – Ingest public cybersecurity threat intelligence, organize it into structured feature sets, and train a model to classify and predict threat actor tactics (e.g., mapping attacker behavior to MITRE ATT&CK techniques).
 
 **Goal** – Assist security analysts in triaging incidents faster by auto-labeling observed behaviors.
+
+**POC — A research-grade pipeline demonstrating data engineering and cybersecurity concepts, not production software.**
+- Currently, the produced models are not trained on sufficient data to produce meaningful predictions. The architecture and pipeline are the artifact, not the weights.
+- This project currently doesn't consider distributability or dependency versions apart from the development environment.
 
 ---
 # Design
@@ -20,7 +19,7 @@
 ---
 
 ### Setup
-**1. Download and enter the project directory**
+**1. Download, build, install**
 ```bash
 # Clone the repo
 git clone https://github.com/ZandtLavish/threatscope
@@ -38,7 +37,7 @@ pip install -e .    # Editable mode suggested when making configuration changes
 ```
 </br>
 
-**2. Tailor `config.yaml` to setup API Keys, hyperparameters, etc.**
+**2. Tailor `config.yaml` to setup API keys, hyperparameters, etc.**
 </br>
 
 ---
@@ -47,7 +46,7 @@ pip install -e .    # Editable mode suggested when making configuration changes
 
 `pipeline` → `train` → `evaluate` → `predict`
 
-*NOTE – The MLflow commands have `demo` modes for you to run `train`/`evaluate`/`predict` end-to-end quickly with zero credentials*
+***NOTE** – The MLflow commands have `demo` modes for you to run `train`/`evaluate`/`predict` end-to-end quickly with zero credentials*
 
 **1. ETL**
 ```bash
