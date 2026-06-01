@@ -50,18 +50,18 @@ pip install -e .    # Editable mode suggested when making configuration changes
 
 **1. ETL**
 ```bash
-threatscope pipeline
+threatscope pipeline --nvd-days 50 --otx-days 50  # Each default to last 30 days of data
 ```
 </br>
 
 **2. Create and test your model**
 ```bash
-threatscope train
-threatscope evaluate
+threatscope train --epochs 20 --batch-size 32 --patience 4
+threatscope evaluate --model-dir <path to artifacts dir>    # `model-dir` defaults to "artifacts/model"
 ```
 </br>
 
 **3. Predict a tactic**
 ```bash
-threatscope predict --description <CVE/Incident description>
+threatscope predict --description <CVE/incident description>
 ```
