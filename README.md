@@ -17,15 +17,24 @@
 
 </br>
 
-### MLflow
-
 ---
 
 ### Setup
 **1. Download and enter the project directory**
-```
+```bash
+# Clone the repo
 git clone https://github.com/ZandtLavish/threatscope
+
+# Enter the project directory
 cd threatscope/
+
+# Install the build tool & build the package
+pip install build
+python -m build
+
+# Install `threatscope`
+pip install -e .    # Editable mode suggested when making configuration changes
+
 ```
 </br>
 
@@ -36,20 +45,24 @@ cd threatscope/
 
 ### Command Flow
 
+`pipeline` → `train` → `evaluate` → `predict`
+
+*NOTE – The MLflow commands have `demo` modes for you to run `train`/`evaluate`/`predict` end-to-end quickly with zero credentials*
+
 **1. ETL**
 ```bash
-python -m src.main pipeline
+threatscope pipeline
 ```
 </br>
 
 **2. Create and test your model**
 ```bash
-python -m src.main train
-python -m src.main evaluate
+threatscope train
+threatscope evaluate
 ```
 </br>
 
 **3. Predict a tactic**
 ```bash
-python -m src.main predict --description <CVE/Incident description>
+threatscope predict --description <CVE/Incident description>
 ```
