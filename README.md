@@ -3,9 +3,9 @@
 
 **Goal** – Assist security analysts in triaging incidents faster by auto-labeling observed behaviors.
 
-**POC — A research-grade pipeline demonstrating data engineering and cybersecurity concepts, not production software.**
-- Currently, the produced models are not trained on sufficient data to produce meaningful predictions. The architecture and pipeline are the artifact, not the weights.
-- This project currently doesn't consider distributability or dependency versions apart from the development environment.
+**POC — A research-grade pipeline demonstrating data engineering and cybersecurity concepts, not production software.** Currently, the produced models are not trained on sufficient data to produce meaningful predictions. The architecture and pipeline are the artifact, not the weights.
+
+*Built with Claude Code as a pair-programming assistant. Architecture, design decisions, debugging, and review were driven by me.*
 
 ---
 # Design
