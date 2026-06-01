@@ -1,0 +1,27 @@
+.env
+CLAUDE.md
+__pycache__/
+.vscode
+.DS_Store
+
+# Notes
+project_outline.md
+NOTES.md
+ARCHITECTURE.md
+
+# Dev
+requirements-dev.txt
+logs/
+test/
+tmp/
+notes/
+diagrams/
+
+# Package build
+dist/
+build/
+*.egg-info/
+
+# User-specific
+data/
+artifacts/
