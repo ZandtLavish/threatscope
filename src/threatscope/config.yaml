@@ -1,0 +1,70 @@
+# TactClass configuration.
+#
+# These are the defaults the CLI commands use. Precedence (highest first):
+#   command-line flag  >  this file  >  environment variable  >  built-in default
+# Anything you delete here falls back to the built-in default in src/config.py.
+
+# --- Data-source API keys -------------------------------------------------- #
+# Leave blank to read from the environment instead (NVD_API_KEY / OTX_API_KEY,
+# e.g. via a .env file). NVD works without a key (lower rate limit); OTX requires one.
+api_keys:
+  nvd: ""
+  otx: ""
+
+# --- Storage --------------------------------------------------------------- #
+database:
+  url: "sqlite:///data/tactclass.db"   # e.g. postgresql+psycopg://user:pass@host/db in prod
+
+feature_store:
+  root: "data/feature_store"           # used as --store-root by train/evaluate/predict
+  name: "features"                     # encoded dataset name within the store
+
+# --- ELT pipeline ---------------------------------------------------------- #
+pipeline:
+  sources: [nvd, otx]                  # event sources to extract (otx auto-skipped without a key)
+  nvd_days: 30                         # look-back window for recently-modified CVEs
+  nvd_results_per_page: 2000           # NVD API page size (max 2000)
+  otx_days: 30                         # look-back window for OTX pulses
+  otx_max_pulses: 500                  # cap on pulses pulled per run (null = no cap)
+  mitre_domain: enterprise             # enterprise | mobile | ics
+  mitre_version: null                  # pin an ATT&CK release, e.g. "14.1" (null = latest)
+  cve_technique_map: null              # path to {cve_id: [technique_id,...]} JSON (optional)
+  expand_actor_techniques: false       # add an actor's known techniques to its pulses
+  write_db: true                       # load into the SQLAlchemy system-of-record
+  write_features: true                 # load the Parquet feature store
+
+# --- Model architecture / optimization ------------------------------------- #
+model:
+  embedding_dim: 128                   # text embedding width (must match the embedder: hashing=any, MiniLM=384)
+  text_embedder: hashing               # hashing (lexical, no deps) | sentence-transformer (semantic, needs sentence-transformers)
+  text_hidden: 64
+  struct_hidden: [64, 32]
+  merge_hidden: 128
+  dropout_text: 0.3
+  dropout_merge: 0.4
+  learning_rate: 0.001
+  decision_threshold: 0.5              # probability cutoff for a positive technique
+
+# --- Training -------------------------------------------------------------- #
+train:
+  model_dir: "artifacts/model"
+  epochs: 20
+  batch_size: 32
+  val_frac: 0.15
+  test_frac: 0.15
+  seed: 42
+  patience: 4                          # EarlyStopping patience (epochs)
+  min_label_support: 1                 # keep only techniques with >= this many positive examples
+  max_pos_weight: 100.0                # cap on per-technique positive weight in the weighted loss
+
+# --- Evaluation ------------------------------------------------------------ #
+evaluate:
+  split: test                          # train | val | test
+  threshold: null                      # null -> model.decision_threshold
+  batch_size: 256
+  top: 20                              # techniques shown in the per-technique table
+
+# --- Prediction ------------------------------------------------------------ #
+predict:
+  threshold: null                      # null -> model.decision_threshold
+  top_k: 10
